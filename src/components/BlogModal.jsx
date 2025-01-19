@@ -8,6 +8,37 @@ import { useClickOutside } from "../hooks/useClickOutside";
 const BlogModal = () => {
   const [image, setImage] = useState(null);
 
+  const [data, setData] = useState()
+  const [recieveData, setRecieveData] = useState([])
+
+  console.log(recieveData)
+
+  const storeData = () => {
+
+    const postObj = {
+        postData : data,
+        postImg : image
+    }
+
+    const parsedPostObj = JSON.stringify(postObj)
+    localStorage.setItem("blog", parsedPostObj)
+
+  }
+
+  const showData = () => {
+    
+    if(!data) return;
+    setRecieveData((prevData)=>[...prevData,localStorage.getItem("blog")])
+  
+  }
+
+  const handleOnClick = () => {
+    storeData();
+    showData();
+  }
+
+
+
   const dispatch = useDispatch();
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);
   const handleImageUpload = (e) => {
@@ -26,9 +57,11 @@ const BlogModal = () => {
 
   if (!isModalOpen) return null;
 
+
+
   return (
     <div
-      ref={modalRef}
+
       className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-50 border border-blue-500 shadow-lg rounded-lg p-6 w-[40rem]"
     >
       <div className="flex items-center justify-between mb-8">
@@ -43,6 +76,7 @@ const BlogModal = () => {
       <textarea
         className="w-full h-32 text-sm p-2 bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none resize-none border-none"
         placeholder="Write your blog content here..."
+        onChange={(e) => { setData(e.target.value) }}
       ></textarea>
 
       <div className="flex flex-col items- mt-4">
@@ -76,9 +110,10 @@ const BlogModal = () => {
             </div>
           )}
         </div>
-        <button className="text-sm  bg-blue-500 text-white p-2 mt-4 rounded-lg">
+        <button className="text-sm  bg-blue-500 text-white p-2 mt-4 rounded-lg" onClick={handleOnClick}>
           Post
         </button>
+
       </div>
     </div>
   );
