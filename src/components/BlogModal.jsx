@@ -5,39 +5,33 @@ import { AiOutlineFileImage } from "react-icons/ai";
 import { FaX } from "react-icons/fa6";
 import { useClickOutside } from "../hooks/useClickOutside";
 
-const BlogModal = () => {
+const BlogModal = ({ onNewBlog }) => {
   const [image, setImage] = useState(null);
+  const [data, setData] = useState();
+  const [receiveData, setReceiveData] = useState([]);
 
-  const [data, setData] = useState()
-  const [recieveData, setRecieveData] = useState([])
-
-  console.log(recieveData)
+  console.log(receiveData);
 
   const storeData = () => {
-
     const postObj = {
-        postData : data,
-        postImg : image
-    }
+      postData: data,
+      postImg: image,
+    };
 
-    const parsedPostObj = JSON.stringify(postObj)
-    localStorage.setItem("blog", parsedPostObj)
-
-  }
+    const parsedPostObj = JSON.stringify(postObj);
+    localStorage.setItem("blog", parsedPostObj);
+    if (onNewBlog) onNewBlog(); // Notify parent to fetch the latest blog
+  };
 
   const showData = () => {
-    
-    if(!data) return;
-    setRecieveData((prevData)=>[...prevData,localStorage.getItem("blog")])
-  
-  }
+    if (!data) return;
+    setReceiveData((prevData) => [...prevData, localStorage.getItem("blog")]);
+  };
 
   const handleOnClick = () => {
+    if (!data) return;
     storeData();
-    showData();
-  }
-
-
+  };
 
   const dispatch = useDispatch();
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);
@@ -57,13 +51,8 @@ const BlogModal = () => {
 
   if (!isModalOpen) return null;
 
-
-
   return (
-    <div
-
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-50 border border-blue-500 shadow-lg rounded-lg p-6 w-[40rem]"
-    >
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-50 border border-blue-500 shadow-lg rounded-lg p-6 w-[40rem]">
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-2xl font-bold text-gray-700">Create Blog Post</h2>
         <button
@@ -76,7 +65,9 @@ const BlogModal = () => {
       <textarea
         className="w-full h-32 text-sm p-2 bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none resize-none border-none"
         placeholder="Write your blog content here..."
-        onChange={(e) => { setData(e.target.value) }}
+        onChange={(e) => {
+          setData(e.target.value);
+        }}
       ></textarea>
 
       <div className="flex flex-col items- mt-4">
@@ -110,10 +101,12 @@ const BlogModal = () => {
             </div>
           )}
         </div>
-        <button className="text-sm  bg-blue-500 text-white p-2 mt-4 rounded-lg" onClick={handleOnClick}>
+        <button
+          className="text-sm  bg-blue-500 text-white p-2 mt-4 rounded-lg"
+          onClick={handleOnClick}
+        >
           Post
         </button>
-
       </div>
     </div>
   );
