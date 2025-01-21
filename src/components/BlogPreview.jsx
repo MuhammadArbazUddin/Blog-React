@@ -1,9 +1,15 @@
-const BlogPreview = ({ blogs }) => {
+import { useState } from "react";
+
+const BlogPreview = () => {
+
+
+
+
   return (
     <div>
-      <h2>Blog Posts</h2>
-      {blogs.length > 0 ? (
-        blogs.map((blog, index) => (
+      {/* <h2>Blog Posts</h2>
+      {blog.length > 0 ? (
+        blog.map((blog, index) => (
           <div key={index} className="blog-item">
             <p>{blog.postData}</p>
             {blog.postImg && (
@@ -17,7 +23,7 @@ const BlogPreview = ({ blogs }) => {
         ))
       ) : (
         <p>No blogs available</p>
-      )}
+      )} */}
     </div>
   );
 };

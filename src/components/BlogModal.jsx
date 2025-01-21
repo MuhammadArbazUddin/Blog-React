@@ -5,14 +5,15 @@ import { AiOutlineFileImage } from "react-icons/ai";
 import { FaX } from "react-icons/fa6";
 import { useClickOutside } from "../hooks/useClickOutside";
 
-const BlogModal = ({ onNewBlog }) => {
+const BlogModal = () => {
   const [image, setImage] = useState(null);
   const [data, setData] = useState();
-  const [receiveData, setReceiveData] = useState([]);
+  const [recieveData, setRecieveData] = useState([]);
+  console.log(recieveData)
+ 
 
-  console.log(receiveData);
+  const storeData = (e) => {
 
-  const storeData = () => {
     const postObj = {
       postData: data,
       postImg: image,
@@ -20,17 +21,20 @@ const BlogModal = ({ onNewBlog }) => {
 
     const parsedPostObj = JSON.stringify(postObj);
     localStorage.setItem("blog", parsedPostObj);
-    if (onNewBlog) onNewBlog(); // Notify parent to fetch the latest blog
+    // if (onNewBlog) onNewBlog(); // Notify parent to fetch the latest blog
   };
 
-  const showData = () => {
-    if (!data) return;
-    setReceiveData((prevData) => [...prevData, localStorage.getItem("blog")]);
-  };
+  const showData = () =>{
+    
+    const result = localStorage.getItem("blog")
+      setRecieveData((prevData)=>[...prevData , JSON.parse(result)])
+  }
+
 
   const handleOnClick = () => {
-    if (!data) return;
+
     storeData();
+    showData();
   };
 
   const dispatch = useDispatch();
@@ -67,6 +71,7 @@ const BlogModal = ({ onNewBlog }) => {
         placeholder="Write your blog content here..."
         onChange={(e) => {
           setData(e.target.value);
+          e.preventDefault
         }}
       ></textarea>
 

@@ -4,28 +4,43 @@ import BlogModal from "../components/BlogModal";
 import BlogPreview from "../components/BlogPreview";
 
 const Blog = () => {
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
 
-  useEffect(() => {
-    // Load blogs from localStorage on component mount
-    const savedBlog = localStorage.getItem("blog");
-    if (savedBlog) {
-      setBlogs([JSON.parse(savedBlog)]);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Load blogs from localStorage on component mount
+  //   const savedBlog = localStorage.getItem("blog");
+  //   if (savedBlog) {
+  //     setBlogs([JSON.parse(savedBlog)]);
+  //   }
+  // }, []);
 
-  const handleNewBlog = () => {
-    const savedBlog = localStorage.getItem("blog");
-    if (savedBlog) {
-      setBlogs((prevBlogs) => [...prevBlogs, JSON.parse(savedBlog)]);
-    }
-  };
+  // const handleNewBlog = () => {
+  //   const savedBlog = localStorage.getItem("blog");
+  //   if (savedBlog) {
+  //     setBlogs((prevBlogs) => [...prevBlogs, JSON.parse(savedBlog)]);
+  //   }
+  // };
+
+
+  // useEffect(() => {
+  //   const savedBlog = localStorage.getItem("blog")
+  //   if (savedBlog) {
+  //       setBlogs((prevBlogs)=>[...prevBlogs , JSON.parse(savedBlog)])
+  //   }
+    
+   
+  // }, [])
+  
+ 
+
 
   return (
     <div className="px-8 py-4">
       <BlogInput />
-      <BlogModal onNewBlog={handleNewBlog} />
-      <BlogPreview blogs={blogs} />
+      <BlogModal  />
+      {/* <BlogModal onNewBlog={handleNewBlog} /> */}
+      {/* <BlogPreview blogs={blogs} /> */}
+      <BlogPreview/>
     </div>
   );
 };
